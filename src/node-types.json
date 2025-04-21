@@ -392,6 +392,10 @@
     "named": false
   },
   {
+    "type": "kphp",
+    "named": false
+  },
+  {
     "type": "long",
     "named": false
   },

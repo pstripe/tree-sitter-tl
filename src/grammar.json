@@ -387,6 +387,10 @@
             {
               "type": "STRING",
               "value": "internal"
+            },
+            {
+              "type": "STRING",
+              "value": "kphp"
             }
           ]
         }

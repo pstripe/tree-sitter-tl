@@ -99,7 +99,8 @@ module.exports = grammar({
       'write',
       'readwrite',
       'any',
-      'internal'
+      'internal',
+      'kphp'
     )),
     magic_number: $ => seq('#', /[0-9a-fA-F]{8}/),
 
