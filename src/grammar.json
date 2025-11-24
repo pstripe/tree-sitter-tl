@@ -200,7 +200,7 @@
     },
     "parameter_name": {
       "type": "PATTERN",
-      "value": "[a-z_]+"
+      "value": "[a-zA-Z_]+"
     },
     "property": {
       "type": "CHOICE",
@@ -440,5 +440,6 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }

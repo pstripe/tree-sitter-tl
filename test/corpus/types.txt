@@ -1,0 +1,262 @@
+==================
+Basic type
+==================
+---types---
+testType = TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(type_name))
+			(type
+				(name
+					(type_name)))
+		)
+	)
+)
+
+==================
+Basic type with Magic
+==================
+---types---
+testType#0129abef = TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(type_name))
+			(magic_number)
+			(type
+				(name
+					(type_name)))
+		)
+	)
+)
+
+==================
+Basic type alias
+==================
+---types---
+testType string = TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(type_name))
+			(property
+				(builtin_type))
+			(type
+				(name
+					(type_name)))
+		)
+	)
+)
+
+==================
+Basic type alias with Magic
+==================
+---types---
+testType#0129abef string = TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(type_name))
+			(magic_number)
+			(property
+				(builtin_type))
+			(type
+				(name
+					(type_name)))
+		)
+	)
+)
+
+==================
+Basic type with property
+==================
+---types---
+testType#0129abef some_name:string = TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(type_name))
+			(magic_number)
+			(property
+				(parameter_name)
+				(builtin_type))
+			(type
+				(name
+					(type_name)))
+		)
+	)
+)
+
+
+
+==================
+Basic type with Namespace
+==================
+---types---
+test.testType#0129abef some_name:string = test.TestType;
+test.testType#0129abef someName:string = test.TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(namespace_name)
+				(type_name))
+			(magic_number)
+			(property
+				(parameter_name)
+				(builtin_type))
+			(type
+				(name
+					(namespace_name)
+					(type_name)))
+		)
+	    (definition
+			(name
+				(namespace_name)
+				(type_name))
+			(magic_number)
+			(property
+				(parameter_name)
+				(builtin_type))
+			(type
+				(name
+					(namespace_name)
+					(type_name)))
+		)
+	)
+)
+
+==================
+Basic type with Complex property type
+==================
+---types---
+test.testType#0129abef some_name:test.Bool = test.TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(namespace_name)
+				(type_name))
+			(magic_number)
+			(property
+				(parameter_name)
+				(user_defined_type
+					(name
+						(namespace_name)
+						(type_name))))
+			(type
+				(name
+					(namespace_name)
+					(type_name)))
+		)
+	)
+)
+
+
+==================
+Type with NAT param
+==================
+---types---
+test.testType#0129abef {mask:#}
+	some_name:string
+	some_value:int
+	some_type:test.TestType
+	= test.TestType mask;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(namespace_name)
+				(type_name))
+			(magic_number)
+			(parameter
+				(parameter_name)
+				(nat_type))
+			(property
+				(parameter_name)
+				(builtin_type))
+			(property
+				(parameter_name)
+				(builtin_type))
+			(property
+				(parameter_name)
+				(user_defined_type
+					(name
+						(namespace_name)
+						(type_name))))
+			(type
+				(name
+					(namespace_name)
+					(type_name))
+				(parameter_name))
+		)
+	)
+)
+
+==================
+Type with NAT properties
+==================
+---types---
+test.testType#0129abef
+	fields: #
+	more_field: #
+	some_name:string
+	= test.TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(namespace_name)
+				(type_name))
+			(magic_number)
+			(property
+				(parameter_name)
+				(builtin_type
+					(nat_type)))
+			(property
+				(parameter_name)
+				(builtin_type
+					(nat_type)))
+			(property
+				(parameter_name)
+				(builtin_type))
+			(type
+				(name
+					(namespace_name)
+					(type_name)))
+		)
+	)
+)

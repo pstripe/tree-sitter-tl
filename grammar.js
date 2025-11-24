@@ -67,7 +67,7 @@ module.exports = grammar({
 
     _nat_parameter: $ => seq($.parameter_name, ':', $.nat_type),
 
-    parameter_name: $ => /[a-z_]+/,
+    parameter_name: $ => /[a-zA-Z_]+/,
 
     property: $ => choice(
       $._named_property,
