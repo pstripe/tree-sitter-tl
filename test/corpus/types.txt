@@ -109,6 +109,31 @@ testType#0129abef some_name:string = TestType;
 )
 
 
+==================
+Basic type with property with digits
+==================
+---types---
+testType#0129abef some_name123:string = TestType;
+
+---
+
+(source_file
+  	(types_section
+	    (definition
+			(name
+				(type_name))
+			(magic_number)
+			(property
+				(parameter_name)
+				(builtin_type))
+			(type
+				(name
+					(type_name)))
+		)
+	)
+)
+
+
 
 ==================
 Basic type with Namespace
