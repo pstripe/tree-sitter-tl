@@ -1,25 +1,35 @@
+; ============================================================
+; types.txt — tree-sitter corpus tests for tree-sitter-tl
+; ============================================================
+
+; -------------------------------------------------------
+; 1. Minimal combinator (no fields)
+; -------------------------------------------------------
+
 ==================
-Basic type
+Minimal combinator
 ==================
 ---types---
-testType = TestType;
+null = Null;
 
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(type_name))
-			(type
-				(name
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 2. Combinator with magic number
+; -------------------------------------------------------
 
 ==================
-Basic type with Magic
+Combinator with magic number
 ==================
 ---types---
 testType#0129abef = TestType;
@@ -27,20 +37,47 @@ testType#0129abef = TestType;
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(type_name))
-			(magic_number)
-			(type
-				(name
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident))
+        (magic_number))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 3. Namespaced combinator and result type
+; -------------------------------------------------------
 
 ==================
-Basic type alias
+Namespaced combinator
+==================
+---types---
+test.testType#0129abef = test.TestType;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 4. Bare builtin type alias (unnamed field)
+; -------------------------------------------------------
+
+==================
+Bare builtin alias
 ==================
 ---types---
 testType string = TestType;
@@ -48,44 +85,24 @@ testType string = TestType;
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(type_name))
-			(property
-				(builtin_type))
-			(type
-				(name
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (args
+        (anonymous_field
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 5. Named field with builtin type
+; -------------------------------------------------------
 
 ==================
-Basic type alias with Magic
-==================
----types---
-testType#0129abef string = TestType;
-
----
-
-(source_file
-  	(types_section
-	    (definition
-			(name
-				(type_name))
-			(magic_number)
-			(property
-				(builtin_type))
-			(type
-				(name
-					(type_name)))
-		)
-	)
-)
-
-==================
-Basic type with property
+Named builtin field
 ==================
 ---types---
 testType#0129abef some_name:string = TestType;
@@ -93,24 +110,27 @@ testType#0129abef some_name:string = TestType;
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(type_name))
-			(magic_number)
-			(property
-				(parameter_name)
-				(builtin_type))
-			(type
-				(name
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
 
+; -------------------------------------------------------
+; 6. Field name with digits
+; -------------------------------------------------------
 
 ==================
-Basic type with property with digits
+Field name with digits
 ==================
 ---types---
 testType#0129abef some_name123:string = TestType;
@@ -118,65 +138,27 @@ testType#0129abef some_name123:string = TestType;
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(type_name))
-			(magic_number)
-			(property
-				(parameter_name)
-				(builtin_type))
-			(type
-				(name
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
 
-
-
-==================
-Basic type with Namespace
-==================
----types---
-test.testType#0129abef some_name:string = test.TestType;
-test.testType#0129abef someName:string = test.TestType;
-
----
-
-(source_file
-  	(types_section
-	    (definition
-			(name
-				(namespace_name)
-				(type_name))
-			(magic_number)
-			(property
-				(parameter_name)
-				(builtin_type))
-			(type
-				(name
-					(namespace_name)
-					(type_name)))
-		)
-	    (definition
-			(name
-				(namespace_name)
-				(type_name))
-			(magic_number)
-			(property
-				(parameter_name)
-				(builtin_type))
-			(type
-				(name
-					(namespace_name)
-					(type_name)))
-		)
-	)
-)
+; -------------------------------------------------------
+; 7. Field with user-defined namespaced boxed type
+; -------------------------------------------------------
 
 ==================
-Basic type with Complex property type
+Field with namespaced boxed type
 ==================
 ---types---
 test.testType#0129abef some_name:test.Bool = test.TestType;
@@ -184,104 +166,544 @@ test.testType#0129abef some_name:test.Bool = test.TestType;
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(namespace_name)
-				(type_name))
-			(magic_number)
-			(property
-				(parameter_name)
-				(user_defined_type
-					(name
-						(namespace_name)
-						(type_name))))
-			(type
-				(name
-					(namespace_name)
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (boxed_type
+            (uc_ident_ns
+              (lc_ident)
+              (uc_ident)))))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
 
-
-==================
-Type with NAT param
-==================
----types---
-test.testType#0129abef {mask:#}
-	some_name:string
-	some_value:int
-	some_type:test.TestType
-	= test.TestType mask;
-
----
-
-(source_file
-  	(types_section
-	    (definition
-			(name
-				(namespace_name)
-				(type_name))
-			(magic_number)
-			(parameter
-				(parameter_name)
-				(nat_type))
-			(property
-				(parameter_name)
-				(builtin_type))
-			(property
-				(parameter_name)
-				(builtin_type))
-			(property
-				(parameter_name)
-				(user_defined_type
-					(name
-						(namespace_name)
-						(type_name))))
-			(type
-				(name
-					(namespace_name)
-					(type_name))
-				(parameter_name))
-		)
-	)
-)
+; -------------------------------------------------------
+; 8. NAT type field  (fields_mask:#)
+; -------------------------------------------------------
 
 ==================
-Type with NAT properties
+NAT type field
 ==================
 ---types---
 test.testType#0129abef
-	fields: #
-	more_field: #
-	some_name:string
-	= test.TestType;
+  fields_mask:#
+  some_name:string
+  = test.TestType;
 
 ---
 
 (source_file
-  	(types_section
-	    (definition
-			(name
-				(namespace_name)
-				(type_name))
-			(magic_number)
-			(property
-				(parameter_name)
-				(builtin_type
-					(nat_type)))
-			(property
-				(parameter_name)
-				(builtin_type
-					(nat_type)))
-			(property
-				(parameter_name)
-				(builtin_type))
-			(type
-				(name
-					(namespace_name)
-					(type_name)))
-		)
-	)
-)
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (nat_type)))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 9. Conditional (optional) field:  flags.0?string
+; -------------------------------------------------------
+
+==================
+Conditional field
+==================
+---types---
+test.testType#0129abef
+  flags:#
+  username:flags.0?string
+  = test.TestType;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (nat_type)))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (conditional_def
+            (var_ident
+              (lc_ident))
+            (nat_const))
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 10. Generic NAT opt-arg  {mask:#}  and result with subexpr
+; -------------------------------------------------------
+
+==================
+NAT opt-arg and result with subexpr
+==================
+---types---
+test.testType#0129abef {mask:#}
+  some_name:string
+  = test.TestType mask;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (opt_args
+        (var_ident
+          (lc_ident))
+        (nat_type))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))
+        (lc_ident_ns
+          (lc_ident))))))
+
+; -------------------------------------------------------
+; 11. Type opt-arg  {t:Type}
+; -------------------------------------------------------
+
+==================
+Type opt-arg
+==================
+---types---
+vector {t:Type} = Vector t;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (opt_args
+        (var_ident
+          (lc_ident))
+        (builtin_type))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))
+        (lc_ident_ns
+          (lc_ident))))))
+
+; -------------------------------------------------------
+; 12. Parenthesised type application  (Vector test.Bool)
+; -------------------------------------------------------
+
+==================
+Paren type application
+==================
+---types---
+test.testType#0129abef
+  some_name:(Vector test.Bool)
+  = test.TestType;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (paren_type_expr
+            (boxed_type
+              (uc_ident_ns
+                (uc_ident)))
+            (boxed_type
+              (uc_ident_ns
+                (lc_ident)
+                (uc_ident))))))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 13. Angle-bracket generic  Vector<test.Bool>
+; -------------------------------------------------------
+
+==================
+Angle bracket generic type
+==================
+---types---
+test.testType#0129abef
+  some_name:Vector<test.Bool>
+  = test.TestType;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (angle_type_expr
+            (uc_ident_ns
+              (uc_ident))
+            (boxed_type
+              (uc_ident_ns
+                (lc_ident)
+                (uc_ident))))))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 14. Bare (unboxed) types:  %(Vector test.Bool)  and  %Vector<test.Bool>
+; -------------------------------------------------------
+
+==================
+Bare type forms
+==================
+---types---
+test.testType#0129abef
+  v1:%(Vector test.Bool)
+  v2:%Vector<test.Bool>
+  = test.TestType;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (bare_type
+            (paren_type_expr
+              (boxed_type
+                (uc_ident_ns
+                  (uc_ident)))
+              (boxed_type
+                (uc_ident_ns
+                  (lc_ident)
+                  (uc_ident)))))))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (bare_type
+            (angle_type_expr
+              (uc_ident_ns
+                (uc_ident))
+              (boxed_type
+                (uc_ident_ns
+                  (lc_ident)
+                  (uc_ident)))))))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 15. Multiple combinators in one section
+; -------------------------------------------------------
+
+==================
+Multiple combinators
+==================
+---types---
+boolFalse = Bool;
+boolTrue  = Bool;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 16. Function declaration with @attribute
+; -------------------------------------------------------
+
+==================
+Function with attribute
+==================
+---functions---
+@read
+users.getUser#aabbccdd user_id:int = users.User;
+
+---
+
+(source_file
+  (functions_section
+    (function_decl
+      (function_attribute)
+      (combinator_decl
+        (combinator_id
+          (lc_ident_ns
+            (lc_ident)
+            (lc_ident))
+          (magic_number))
+        (args
+          (field
+            (field_name
+              (lc_ident))
+            (builtin_type)))
+        (result_type
+          (uc_ident_ns
+            (lc_ident)
+            (uc_ident)))))))
+
+; -------------------------------------------------------
+; 17. Both sections together
+; -------------------------------------------------------
+
+==================
+Both sections
+==================
+---types---
+user#aabbccdd id:int name:string = User;
+---functions---
+@read
+getUser#11223344 user_id:int = User;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident)))))
+  (functions_section
+    (function_decl
+      (function_attribute)
+      (combinator_decl
+        (combinator_id
+          (lc_ident_ns
+            (lc_ident))
+          (magic_number))
+        (args
+          (field
+            (field_name
+              (lc_ident))
+            (builtin_type)))
+        (result_type
+          (uc_ident_ns
+            (uc_ident)))))))
+
+; -------------------------------------------------------
+; 18. Line comment
+; -------------------------------------------------------
+
+==================
+Line comment
+==================
+---types---
+// This is a comment
+testType = TestType; // inline comment
+
+---
+
+(source_file
+  (types_section
+    (comment)
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident)))))
+  (comment))
+
+; -------------------------------------------------------
+; 19. Block comment
+; -------------------------------------------------------
+
+==================
+Block comment
+==================
+---types---
+/* multi
+   line */
+testType = TestType;
+
+---
+
+(source_file
+  (types_section
+    (comment)
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)))
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 20. Anonymous combinator  _
+; -------------------------------------------------------
+
+==================
+Anonymous combinator
+==================
+---types---
+_ = Null;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id)
+      (result_type
+        (uc_ident_ns
+          (uc_ident))))))
+
+; -------------------------------------------------------
+; 21. Multiline definition with indentation
+; -------------------------------------------------------
+
+==================
+Multiline definition
+==================
+---types---
+test.testType#0129abef
+  flags:#
+  id:long
+  username:flags.0?string
+  photo:flags.1?test.Photo
+  = test.TestType;
+
+---
+
+(source_file
+  (types_section
+    (combinator_decl
+      (combinator_id
+        (lc_ident_ns
+          (lc_ident)
+          (lc_ident))
+        (magic_number))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (nat_type)))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (builtin_type)))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (conditional_def
+            (var_ident
+              (lc_ident))
+            (nat_const))
+          (builtin_type)))
+      (args
+        (field
+          (field_name
+            (lc_ident))
+          (conditional_def
+            (var_ident
+              (lc_ident))
+            (nat_const))
+          (boxed_type
+            (uc_ident_ns
+              (lc_ident)
+              (uc_ident)))))
+      (result_type
+        (uc_ident_ns
+          (lc_ident)
+          (uc_ident))))))
