@@ -250,17 +250,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "."
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "nat_const"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "cond_bit"
             },
             {
               "type": "BLANK"
@@ -272,6 +263,22 @@
           "value": "?"
         }
       ]
+    },
+    "cond_bit": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9]+"
+          }
+        ]
+      }
     },
     "anonymous_field": {
       "type": "SEQ",
@@ -543,6 +550,10 @@
         {
           "type": "SYMBOL",
           "name": "uc_ident_ns"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "paren_type_expr"
         }
       ]
     },
@@ -756,13 +767,7 @@
       "name": "comment"
     }
   ],
-  "conflicts": [
-    [
-      "lc_ident_ns",
-      "uc_ident_ns",
-      "var_ident"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],

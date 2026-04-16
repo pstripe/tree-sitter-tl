@@ -194,7 +194,7 @@
       "required": true,
       "types": [
         {
-          "type": "nat_const",
+          "type": "cond_bit",
           "named": true
         },
         {
@@ -418,6 +418,10 @@
           "named": true
         },
         {
+          "type": "paren_type_expr",
+          "named": true
+        },
+        {
           "type": "uc_ident_ns",
           "named": true
         }
@@ -588,6 +592,10 @@
     "type": "comment",
     "named": true,
     "extra": true
+  },
+  {
+    "type": "cond_bit",
+    "named": true
   },
   {
     "type": "double",

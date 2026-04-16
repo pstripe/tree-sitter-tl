@@ -107,8 +107,9 @@
 (conditional_def
   (var_ident (lc_ident) @variable))
 
+; ".0"  ".31"  — the bit-index suffix as an atomic token
 (conditional_def
-  (nat_const) @number)
+  (cond_bit) @number)
 
 (conditional_def "?" @operator)
 

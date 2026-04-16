@@ -259,7 +259,7 @@ test.testType#0129abef
           (conditional_def
             (var_ident
               (lc_ident))
-            (nat_const))
+            (cond_bit))
           (builtin_type)))
       (result_type
         (uc_ident_ns
@@ -689,7 +689,7 @@ test.testType#0129abef
           (conditional_def
             (var_ident
               (lc_ident))
-            (nat_const))
+            (cond_bit))
           (builtin_type)))
       (args
         (field
@@ -698,7 +698,7 @@ test.testType#0129abef
           (conditional_def
             (var_ident
               (lc_ident))
-            (nat_const))
+            (cond_bit))
           (boxed_type
             (uc_ident_ns
               (lc_ident)
@@ -707,3 +707,59 @@ test.testType#0129abef
         (uc_ident_ns
           (lc_ident)
           (uc_ident))))))
+
+; -------------------------------------------------------
+; 22. Result type with parenthesised subexpr
+; -------------------------------------------------------
+
+==================
+Result type with paren subexpr
+==================
+---functions---
+@read
+test.getItem#aabbccdd
+  item_id:test.ItemRef
+  items:%(Vector test.ItemId)
+  = Vector (Maybe int);
+
+---
+
+(source_file
+  (functions_section
+    (function_decl
+      (function_attribute)
+      (combinator_decl
+        (combinator_id
+          (lc_ident_ns
+            (lc_ident)
+            (lc_ident))
+          (magic_number))
+        (args
+          (field
+            (field_name
+              (lc_ident))
+            (boxed_type
+              (uc_ident_ns
+                (lc_ident)
+                (uc_ident)))))
+        (args
+          (field
+            (field_name
+              (lc_ident))
+            (bare_type
+              (paren_type_expr
+                (boxed_type
+                  (uc_ident_ns
+                    (uc_ident)))
+                (boxed_type
+                  (uc_ident_ns
+                    (lc_ident)
+                    (uc_ident)))))))
+        (result_type
+          (uc_ident_ns
+            (uc_ident))
+          (paren_type_expr
+            (boxed_type
+              (uc_ident_ns
+                (uc_ident)))
+            (builtin_type)))))))

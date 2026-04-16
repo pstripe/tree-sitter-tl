@@ -59,9 +59,6 @@ module.exports = grammar({
   word: $ => $.lc_ident,
 
 
-  conflicts: $ => [
-    [$.lc_ident_ns, $.uc_ident_ns, $.var_ident],
-  ],
 
   rules: {
 
@@ -151,11 +148,21 @@ module.exports = grammar({
 
     // conditional-arg-def ::= var-ident [ '.' nat-const ] '?'
     // Examples:  flags?   flags.0?   flags.31?
+    //
+    // cond_bit is an atomic token so the '.' here is never confused with the
+    // '.' separator in lc_ident_ns / uc_ident_ns. The tokenizer resolves by
+    // longest match: '.' followed by a digit -> cond_bit; '.' followed by a
+    // letter -> standalone '.' (namespace separator). This eliminates the GLR
+    // conflict that previously required conflicts: [lc_ident_ns, uc_ident_ns, var_ident].
     conditional_def: $ => seq(
       $.var_ident,
-      optional(seq('.', $.nat_const)),
+      optional($.cond_bit),
       '?',
     ),
+
+    // Bit-index suffix in a conditional field: the '.' + decimal index.
+    // Atomic token — must not be split into '.' and nat_const.
+    cond_bit: $ => token(seq('.', /[0-9]+/)),
 
     // unnamed field: just a type expression standing alone
     anonymous_field: $ => seq(
@@ -243,6 +250,7 @@ module.exports = grammar({
       $.nat_const,
       $.lc_ident_ns,
       $.uc_ident_ns,
+      $.paren_type_expr,
     ),
 
     // =========================================================================
