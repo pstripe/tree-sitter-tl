@@ -46,7 +46,7 @@
 ; Namespaced constructor:  messages.sendMessage#...
 (combinator_id
   (lc_ident_ns
-    namespace: (lc_ident) @module
+    namespace: (lc_ident) @namespace
     (lc_ident) @function))
 
 ; Plain constructor:  sendMessage#...
@@ -62,7 +62,7 @@
 ; Magic (CRC32) number
 ; -----------------------------------------------------------------------------
 
-(magic_number) @number
+(magic_number) @constant.numeric.integer
 
 
 ; -----------------------------------------------------------------------------
@@ -72,7 +72,7 @@
 ; Namespaced result type:  = messages.Messages
 (result_type
   (uc_ident_ns
-    namespace: (lc_ident) @module
+    namespace: (lc_ident) @namespace
     (uc_ident) @type))
 
 ; Plain result type:  = Messages
@@ -129,7 +129,7 @@
 ; Namespaced boxed type in field:  some_field: messages.Message
 (boxed_type
   (uc_ident_ns
-    namespace: (lc_ident) @module
+    namespace: (lc_ident) @namespace
     (uc_ident) @type))
 
 ; Plain boxed type:  some_field: Message
@@ -140,7 +140,7 @@
 ; Type variable reference (lowercase):  some_field: t
 (boxed_type
   (lc_ident_ns
-    (lc_ident) @variable.parameter))
+    (lc_ident) @type.parameter))
 
 
 ; -----------------------------------------------------------------------------
@@ -150,7 +150,7 @@
 ; Namespaced generic head:  messages.Vector<t>
 (angle_type_expr
   (uc_ident_ns
-    namespace: (lc_ident) @module
+    namespace: (lc_ident) @namespace
     (uc_ident) @type))
 
 ; Plain generic head:  Vector<t>
